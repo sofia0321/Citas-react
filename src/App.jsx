@@ -1,21 +1,26 @@
 import ListadoPacientes from "./components/ListadoPacientes"
 import Formulario from "./components/Formulario"
 import Header from "./components/Header"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 function App() {
 
   const[pacientes, setPacientes]= useState(
-    [
-      {
-      nombre: " lll", 
-      propietario: " hhh",
-      email:" huhhu",
-      fecha: " uidhuisdhuidhui",
-      sintomas:" kjsuisui"
-      }
-    ]
+    JSON.parse(localStorage.getItem("pacientes"))|| []
     )
+  
+  const guardar =()=>{
+    localStorage.setItem("pacientes",JSON.stringify(pacientes)) 
+  }
+
+  useEffect(()=>{
+    guardar()
+  },[pacientes])
+
+  /*const borrarLocal =()=>{ 
+    localStorage.clear("")
+
+   }*/
 
   return (
     <div className="container mx-auto mt-20">
@@ -23,7 +28,7 @@ function App() {
 
       <div className="mt-12 md:flex">
         <Formulario pacientes={pacientes}  setPacientes={setPacientes}/>
-        <ListadoPacientes pacientes={pacientes} />
+        <ListadoPacientes pacientes={pacientes} setPacientes={setPacientes} />
       </div>
 
     </div>
