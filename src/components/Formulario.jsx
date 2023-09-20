@@ -1,7 +1,8 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Alerta from "./Alerta";
+import Paciente from "./Paciente";
 
-const Formulario = ({pacientes,setPacientes}) => {
+const Formulario = ({pacientes,setPacientes, paciente}) => {
 
     const [nombre, setNombre] = useState ("");
     const [propietario, setPropietario] = useState ("");
@@ -9,6 +10,22 @@ const Formulario = ({pacientes,setPacientes}) => {
     const [fecha, setFecha] = useState ("");
     const [sintomas, setSintomas] = useState ("");
     const[alerta,setAlerta]=useState("");
+    
+    useEffect(()=>{
+        if(Object.keys(paciente).length !==0){
+            setNombre(paciente.nombre)
+            setPropietario(paciente.propietario)
+            setEmail(paciente.email)
+            setFecha(paciente.fecha)
+            setSintomas(paciente.sintomas);
+        }
+    },[paciente])
+    const generarId=()=>
+    {
+        return Math.random().toString(32).substring(2);
+    }
+        
+    
     
     const handleSubmit=(e)=>{
         e.preventDefault();
@@ -23,25 +40,32 @@ const Formulario = ({pacientes,setPacientes}) => {
             error: false,
             mensaje: "Paciente Registrado"
         })
-
+        const nuevoPaciente= 
+            {
+            nombre,
+            propietario,
+            email,
+            fecha,
+            sintomas,
+            id: generarId()
+            }
+        
         setPacientes(
             [
                 ...pacientes,
-                {
-                    nombre,
-                    propietario,
-                    email,
-                    fecha,
-                    sintomas
-                }
+                nuevoPaciente
             ]
         )
+
         setNombre("")
         setPropietario("")
         setEmail("")
         setFecha("")
         setSintomas("")
         
+        setTimeout(()=>{
+            setAlerta({})
+        },3000)
     }
 
     

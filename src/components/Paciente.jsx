@@ -1,10 +1,11 @@
-const Paciente = ({paciente, pacientes, setPacientes}) => {
+const Paciente = ({paciente, pacientes, setPacientes, setPaciente, setEditando}) => {
    
     const { nombre, propietario, email, fecha, sintomas , id} = paciente
     
     const eliminarPaciente=(id) =>
     {
-        const pacientesActualizados = pacientes.filter((pacienteState, index)=> index !== id);
+        const pacientesActualizados = pacientes.filter(
+            (pacienteState)=> pacienteState.id !== id);
         setPacientes(pacientesActualizados)
     }
     return (
@@ -24,8 +25,18 @@ const Paciente = ({paciente, pacientes, setPacientes}) => {
             <p className="font-bold mb-3 text-gray-700 uppercase">Sintomas:
                 <span className="text-2xl font-normal normal-case">{sintomas}</span>
             </p>
-            <button type="button" className="bg-red-500 p-3 text-white rounded-md
-            uppercase hover:bg-red-600" onClick={()=> {eliminarPaciente(id) }}>ELIMINAR</button>
+            <div className="flex gap-5">
+                 <button type="button" className="bg-red-500 p-3 text-white rounded-md
+                uppercase hover:bg-red-600" onClick={()=> {eliminarPaciente(id) }}>ELIMINAR</button>
+                <button type="button" className="
+                 bg-indigo-500 p-3
+                 text-white rounded-md uppercase
+                 hover:bg-indigo-600" 
+                 onClick={()=>{
+                     setEditando (true)
+                     setPaciente(paciente)
+                        }}>EDITAR</button>
+            </div>
         </div>
     )
 }
